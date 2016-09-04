@@ -9,12 +9,17 @@ class UserPage extends React.Component {
     this.state={
       data:[]
     };
+    this.getUsers=this.getUsers.bind(this);
   }
   
   componentWillMount(){
-    $.ajax({
+   this.getUsers();
+  }
+  
+ getUsers(){
+  $.ajax({
       url:"/user",
-      success:(res,users)=>{
+      success:(res)=>{
         this.setState({data:res});
       },
       error:error=>{
@@ -24,9 +29,7 @@ class UserPage extends React.Component {
    
       
     );
-  }
-  
- 
+ }
   
   AddUser(user){
    var newuser=this.state.data.push(user);
@@ -41,8 +44,8 @@ class UserPage extends React.Component {
     return (
       <div>
         <h1>User Page</h1>
-        <UserList  renderData={this.state.data} />
-        <UserAddBox AddUser={this.state.data} />
+        <UserList  data={this.state.data} getUsers={this.getUsers} />
+        <UserAddBox getUsers={this.getUsers} />
       </div>
       
     );

@@ -1,16 +1,18 @@
 require('vendor/bootstrap.scss');
 
 class UserAddBox extends React.Component{
-    
+    constructor(props){
+      super(props);
+      this.submit=this.submit.bind(this);
+    }
     submit(){
-        var n =this.input.value;
-        console.log(n);
-        this.props.AddUser.push(n);
+       
         $.ajax({
             type: 'POST',
-            url: '/user/create?name='+this.input.value,
+            url: `/user/create?name=${this.input.value}`,
             data:this.input.value,
             success: (data)=>{
+              this.props.getUsers();
                console.log(data);
             },
             error:error=>{
@@ -23,7 +25,7 @@ class UserAddBox extends React.Component{
     return (
       <div>
        <input type="text" ref={(ref)=>{this.input=ref}} />
-       <button onClick={this.submit.bind(this)}>submit</button>
+       <button onClick={this.submit}>submit</button>
       </div>
     );
   }
